@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color with transparency -->
+    <item android:drawable="@android:color/transparent" />
+
+    <!-- Card shape -->
+    <item>
+        <shape
+            android:shape="rectangle">
+            <solid android:color="#26FF7A00" /> <!-- Adjust the color and alpha (opacity) as needed -->
+            <corners android:radius="8dp" /> <!-- Customize the corner radius as needed -->
+        </shape>
+    </item>
+</layer-list>
