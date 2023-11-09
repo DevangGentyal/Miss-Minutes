@@ -1,6 +1,8 @@
 package com.example.missminutes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.Log;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -23,15 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
 //        My Code for logic functioning
 
-        input = findViewById(R.id.input);
-        sendBtn = findViewById(R.id.sendBtn);
+        input = (EditText) findViewById(R.id.input);
+        sendBtn = (ImageButton) findViewById(R.id.sendBtn);
 
 //        On Clicking the send Button
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(input.getText().equals("")){
-                    Toast.makeText(getApplicationContext(),"Please type something first",Toast.LENGTH_SHORT);
+
+
+                String inputStr = input.getText().toString().trim();
+
+                if(inputStr.equals("")){
+                    Toast.makeText(getApplicationContext(),"Please type something first",Toast.LENGTH_SHORT).show();
                 }
                 else{
 //                    Creating and Sending the Request to the BARD AI using the Volley Library
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    System.out.println(response);
+                                    Log.d("resp",response.toString());
                                 }
                             },
                             new Response.ErrorListener() {
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                     );
+                    requestQueue.add(jsonObjectRequest);
                 }
             }
         });
