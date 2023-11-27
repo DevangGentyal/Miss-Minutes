@@ -20,54 +20,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/containerLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/heading"
-                android:layout_width="136dp"
-                android:layout_height="59dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="sans-serif-black"
-                android:includeFontPadding="false"
-                android:text="MISS MINUTES"
-                android:textColor="#FFFFFF"
-                android:textSize="26dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/cardView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.105"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/heading_containerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/mmlarge"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:elevation="10dp"
-                android:src="@drawable/missminuteslarge"
-                app:layout_constraintBottom_toBottomOf="@+id/cardView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.94"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.41" />
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="136dp"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="30dp"
+                    android:fontFamily="sans-serif-black"
+                    android:includeFontPadding="false"
+                    android:text="MISS MINUTES"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.105"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/mmlarge"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:elevation="10dp"
+                    android:src="@drawable/missminuteslarge"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.94"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cardView0"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
                 app:cardBackgroundColor="#66FF7A00"
                 app:cardCornerRadius="10dp"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintBottom_toTopOf="@+id/cardView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/heading">
+                tools:layout_editor_absoluteX="21dp"
+                tools:layout_editor_absoluteY="121dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,88 +100,13 @@
                         android:textSize="14dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
-                android:layout_width="305dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                app:cardBackgroundColor="#66333333"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintBottom_toTopOf="@+id/cardView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="right|center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/user"
-                        android:layout_width="30dp"
-                        android:layout_height="38dp"
-                        android:src="@drawable/user" />
-
-                    <TextView
-                        android:id="@+id/defaultText2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="What is capital of India?"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView3"
-                android:layout_width="305dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                app:cardBackgroundColor="#66FF7A00"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/mmsmall3"
-                        android:layout_width="30dp"
-                        android:layout_height="38dp"
-                        android:src="@drawable/missminutessmall" />
-
-                    <TextView
-                        android:id="@+id/defaultText3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="The Capital of India is Delhi"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/inputCard"
         android:layout_width="306dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/transparent"
+        app:cardBackgroundColor="#260B02"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
