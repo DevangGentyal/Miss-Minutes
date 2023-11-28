@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         String respString = "";
         //                    Creating and Sending the Request to the BARD AI using the Volley Library
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://generativelanguage.googleapis.com/v1beta3/models/chat-bison-001:generateMessage?key=AIzaSyDb49SM3NK7yEHnvA70ShpnzCQlgSLw5WE";
+        String url = "https://generativelanguage.googleapis.com/v1beta3/models/chat-bison-001:generateMessage?key=AIzaSyC6kfPD4EXm-GIYfzUnNQ8h2PU8gzVsqg8";
 
 
         JSONObject prompt = new JSONObject();
