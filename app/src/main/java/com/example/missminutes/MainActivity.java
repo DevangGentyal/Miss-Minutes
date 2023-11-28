@@ -159,18 +159,39 @@ public class MainActivity extends AppCompatActivity {
         String respString = "";
         //                    Creating and Sending the Request to the BARD AI using the Volley Library
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=AIzaSyDb49SM3NK7yEHnvA70ShpnzCQlgSLw5WE";
+        String url = "https://generativelanguage.googleapis.com/v1beta3/models/chat-bison-001:generateMessage?key=AIzaSyDb49SM3NK7yEHnvA70ShpnzCQlgSLw5WE";
 
-        JSONObject text = new JSONObject();
+
+        JSONObject prompt = new JSONObject();
+        JSONObject context = new JSONObject();
+        JSONObject input1 = new JSONObject();
+        JSONObject output = new JSONObject();
+        JSONObject examples = new JSONObject();
+        JSONObject messages = new JSONObject();
+
         try {
-            text.put("text", input);
+            input1.put("content", "who are you");
+            output.put("content", "I am Miss Minutes, your friendly AI assistant. I am here to help you with anything you need, from scheduling appointments to finding information. I am always learning and growing, so please feel free to ask me anything.");
+
+            examples.put("input", input1);
+            examples.put("output", output);
+
+            context.put("context", "Act as you are Miss Minutes an Assistant made by Devang Gentyal");
+            context.put("examples", new JSONObject().put("examples", examples));
+            context.put("messages", new JSONObject().put("messages", input));
+
+            prompt.put("prompt", context);
+            prompt.put("temperature", 0.25);
+            prompt.put("top_k", 40);
+            prompt.put("top_p", 0.95);
+            prompt.put("candidate_count", 2);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject postData = new JSONObject();
         try {
-            postData.put("prompt",text);
+            postData.put("prompt",prompt);
         }
         catch(Exception e){
             e.printStackTrace();
