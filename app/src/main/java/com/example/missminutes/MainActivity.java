@@ -6,6 +6,7 @@ import androidx.media3.common.util.Log;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     EditText input;
     ImageButton sendBtn;
     LinearLayout container;
+    String inputStr;
+
 @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputStr = input.getText().toString().trim();
+                inputStr = input.getText().toString().trim();
 
                 if(inputStr.equals("")){
                     Toast.makeText(getApplicationContext(),"Please type something first",Toast.LENGTH_SHORT).show();
                 }
                 else{
-//                   Creating CardView for user Prompt
+//                   Creating Prompt
                     createPrompt();
 
-//                    createResponse();
-//                   Gettting Response from API
-//                    api_call(inputStr);
+//                   Creating Response
+                    api_call(inputStr);
+
                 }
             }
         });
@@ -56,17 +59,13 @@ public class MainActivity extends AppCompatActivity {
     }
     public void createPrompt(){
 
-//        Dynamically generate the resource ID for Previous CardView
-        int prevId = getResources().getIdentifier("cardView" + (cardNo-1), "id", getPackageName());
-        CardView prev_cardView = findViewById(prevId);
-
-//        Creating the new CardView
+//        Creating the new CardView for Prompt
         CardView new_cardView = new CardView(this);
         int newId = getResources().getIdentifier("cardView" + (cardNo), "id", getPackageName());
         new_cardView.setId(newId);
 
         LinearLayout.LayoutParams new_cardViewLayoutParams = new LinearLayout.LayoutParams(
-                dp_to_pixels(305), dp_to_pixels(105)
+                dp_to_pixels(305), LinearLayout.LayoutParams.WRAP_CONTENT
         );
         new_cardViewLayoutParams.setMargins(0,0,dp_to_pixels(10),dp_to_pixels(20));
         new_cardViewLayoutParams.gravity = Gravity.END;
@@ -74,14 +73,90 @@ public class MainActivity extends AppCompatActivity {
         new_cardView.setCardBackgroundColor(Color.argb(80,60,135,245));
         new_cardView.setRadius(dp_to_pixels(10));
 
+//        Creating a Linear Layout inside CardView
+        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams linear_layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        linearLayout.setGravity(Gravity.RIGHT);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(dp_to_pixels(10),dp_to_pixels(10),dp_to_pixels(10),dp_to_pixels(10));
+
+//        Creating a Image View inside LinearLayout
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.user);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                dp_to_pixels(30),dp_to_pixels(38)
+        ));
+
+//        Creating a Text View inside LinearLayout
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        );
+        textView.setPadding(dp_to_pixels(10),dp_to_pixels(10),dp_to_pixels(10),dp_to_pixels(10));
+        textView.setText(inputStr);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(dp_to_pixels(5));
+
+        linearLayout.addView(imageView);
+        linearLayout.addView(textView);
+        new_cardView.addView(linearLayout);
         container.addView(new_cardView);
         this.cardNo++;
+
     }
-    public void createResponse(){
+    public void createResponse(String responseString){
+//      Creating the new CardView for Response
+            CardView new_cardView = new CardView(this);
+            int newId = getResources().getIdentifier("cardView" + (cardNo), "id", getPackageName());
+            new_cardView.setId(newId);
+
+            LinearLayout.LayoutParams new_cardViewLayoutParams = new LinearLayout.LayoutParams(
+                    dp_to_pixels(305), LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            new_cardViewLayoutParams.setMargins(dp_to_pixels(10), 0, 0, dp_to_pixels(20));
+            new_cardViewLayoutParams.gravity = Gravity.START;
+            new_cardView.setLayoutParams(new_cardViewLayoutParams);
+            new_cardView.setCardBackgroundColor(Color.argb(80, 255, 122, 0));
+            new_cardView.setRadius(dp_to_pixels(10));
+
+//        Creating a Linear Layout inside CardView
+            LinearLayout linearLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams linear_layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setPadding(dp_to_pixels(10), dp_to_pixels(10), dp_to_pixels(10), dp_to_pixels(10));
+
+//        Creating a Image View inside LinearLayout
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(R.drawable.missminutessmall);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                    dp_to_pixels(30), dp_to_pixels(38)
+            ));
+
+//        Creating a Text View inside LinearLayout
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            );
+            textView.setPadding(dp_to_pixels(10), dp_to_pixels(10), dp_to_pixels(10), dp_to_pixels(10));
+            textView.setText(responseString);
+            textView.setTextColor(Color.WHITE);
+            textView.setTextSize(dp_to_pixels(5));
+
+            linearLayout.addView(imageView);
+            linearLayout.addView(textView);
+            new_cardView.addView(linearLayout);
+            container.addView(new_cardView);
+            this.cardNo++;
 
     }
 
     public void api_call(String input){
+        String respString = "";
         //                    Creating and Sending the Request to the BARD AI using the Volley Library
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         String url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText?key=AIzaSyDb49SM3NK7yEHnvA70ShpnzCQlgSLw5WE";
@@ -107,23 +182,25 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String respString = "";
 //                                  //Parsing the JSON response data
                         try {
+                            String respString;
                             JSONArray candidates = response.getJSONArray("candidates");
                             JSONObject firstobj = candidates.getJSONObject(0);
                             respString = firstobj.getString("output");
+                            createResponse(respString);
+                            Log.d("resp",respString);
                         }catch(Exception e){
                             e.printStackTrace();
                         }
-                        Log.d("resp",respString);
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("resp",error.toString());
-
+                        Log.d("resp","Error :"+error.toString());
+                        createResponse("Sorry! I can't answer that");
                     }
                 }
         );
