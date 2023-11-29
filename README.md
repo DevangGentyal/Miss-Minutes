@@ -1,4 +1,4 @@
-# Miss Minutes🤖💡
+# Miss Minutes💡
 
 ![Miss Minutes Logo](app/src/main/res/drawable/missminuteslarge.png)
 
