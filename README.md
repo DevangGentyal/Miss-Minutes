@@ -1,6 +1,6 @@
 # Miss Minutes
 
-![Miss Minutes Logo](link_to_your_image)
+![Miss Minutes Logo](app/src/main/res/drawable/missminuteslarge.png)
 
 Miss Minutes is an AI assistant powered by the PALM API by Google. It serves as a general-purpose chat-based assistant designed to assist users in various tasks and provide information.
 
