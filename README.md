@@ -15,7 +15,7 @@ Miss Minutes is an AI assistant powered by the PALM API by Google. It serves as 
 
 To get started with Miss Minutes, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/miss-minutes.git`
+1. Clone the repository: `[git clone https://github.com/your-username/miss-minutes.git](https://github.com/DevangGentyal/Miss-Minutes.git)`
 2. Install dependencies: `npm install`
 3. Set up the necessary API keys and configurations.
 4. Run the application: `npm start`
