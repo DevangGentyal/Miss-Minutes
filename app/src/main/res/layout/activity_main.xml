@@ -137,13 +137,20 @@
                 android:textColorHint="@color/white"
                 android:textSize="14dp" />
 
-            <ImageButton
-                android:id="@+id/sendBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/send" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/sendBtn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:src="@drawable/send" />-->
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/sendBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    app:lottie_rawRes="@raw/send_animation"
+                    >
 
+                </com.airbnb.lottie.LottieAnimationView>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

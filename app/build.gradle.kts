@@ -30,7 +30,7 @@ android {
 
 dependencies {
 
-
+    implementation ("com.airbnb.android:lottie:6.2.0")
     implementation ("com.android.volley:volley:1.2.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")

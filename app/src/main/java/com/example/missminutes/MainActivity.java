@@ -1,10 +1,13 @@
 package com.example.missminutes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.media3.common.util.Log;
 
+import android.animation.Animator;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -12,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -21,7 +25,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     int cardNo;
     EditText input;
-    ImageButton sendBtn;
+    LottieAnimationView sendBtn;
     LinearLayout container;
     String inputStr;
 
@@ -33,19 +37,40 @@ public class MainActivity extends AppCompatActivity {
 //        My Code for logic functioning
         cardNo = 1;
         input = (EditText) findViewById(R.id.input);
-        sendBtn = (ImageButton) findViewById(R.id.sendBtn);
+        sendBtn = (LottieAnimationView) findViewById(R.id.sendBtn);
         container = (LinearLayout) findViewById(R.id.containerLayout);
 
 //        On Clicking the send Button
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 inputStr = input.getText().toString().trim();
 
                 if(inputStr.equals("")){
                     Toast.makeText(getApplicationContext(),"Please type something first",Toast.LENGTH_SHORT).show();
                 }
                 else{
+//                    Animating Send Button
+                    sendBtn.playAnimation();
+                    sendBtn.addAnimatorListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(@NonNull Animator animator) {
+
+                        }
+                        @Override
+                        public void onAnimationEnd(@NonNull Animator animator) {
+                            sendBtn.setProgress(0);
+                        }
+                        @Override
+                        public void onAnimationCancel(@NonNull Animator animator) {
+
+                        }
+                        @Override
+                        public void onAnimationRepeat(@NonNull Animator animator) {
+                        }
+                    });
+
 //                   Creating Prompt
                     createPrompt();
 
@@ -159,59 +184,31 @@ public class MainActivity extends AppCompatActivity {
         String respString = "";
         //                    Creating and Sending the Request to the BARD AI using the Volley Library
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://generativelanguage.googleapis.com/v1beta3/models/chat-bison-001:generateMessage?key=AIzaSyC6kfPD4EXm-GIYfzUnNQ8h2PU8gzVsqg8";
+        String url = "https://generativelanguage.googleapis.com/v1beta2/models/chat-bison-001:generateMessage?key=AIzaSyC6kfPD4EXm-GIYfzUnNQ8h2PU8gzVsqg8";
 
-
-        JSONObject prompt = new JSONObject();
-        JSONObject context = new JSONObject();
-        JSONObject input1 = new JSONObject();
-        JSONObject output = new JSONObject();
-        JSONObject examples = new JSONObject();
-        JSONObject messages = new JSONObject();
-
+        JSONObject jsonBody = null;
+        String jsonString = "{ \"prompt\": { \"context\": \"Act as you are Miss Minutes an Assistant made by Devang Gentyal\", \"examples\": [{\"input\":{\"content\":\"who are you\"},\"output\":{\"content\":\"I am Miss Minutes, your friendly AI assistant. I am here to help you with anything you need, from scheduling appointments to finding information. I am always learning and growing, so please feel free to ask me anything.\"}}], \"messages\": [{\"content\":\""+inputStr+"\"}]}, \"temperature\": 0.25, \"top_k\": 40, \"top_p\": 0.95, \"candidate_count\": 2}";
         try {
-            input1.put("content", "who are you");
-            output.put("content", "I am Miss Minutes, your friendly AI assistant. I am here to help you with anything you need, from scheduling appointments to finding information. I am always learning and growing, so please feel free to ask me anything.");
-
-            examples.put("input", input1);
-            examples.put("output", output);
-
-            context.put("context", "Act as you are Miss Minutes an Assistant made by Devang Gentyal");
-            context.put("examples", new JSONObject().put("examples", examples));
-            context.put("messages", new JSONObject().put("messages", input));
-
-            prompt.put("prompt", context);
-            prompt.put("temperature", 0.25);
-            prompt.put("top_k", 40);
-            prompt.put("top_p", 0.95);
-            prompt.put("candidate_count", 2);
-
+         jsonBody = new JSONObject(jsonString);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("prompt",prompt);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                postData,
+                jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 //                                  //Parsing the JSON response data
                         try {
-                            String respString;
-                            JSONArray candidates = response.getJSONArray("candidates");
-                            JSONObject firstobj = candidates.getJSONObject(0);
-                            respString = firstobj.getString("output");
-                            createResponse(respString);
-                            Log.d("resp",respString);
+                           String respString = response.getJSONArray("candidates").getJSONObject(0).getString("content");
+                           Log.d("resp","Response: "+respString);
+                           createResponse(respString);
                         }catch(Exception e){
+                            createResponse("Error in formating Response");
+                           Log.d("resp","Error in formating Response");
                             e.printStackTrace();
                         }
 
@@ -225,6 +222,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        // change default retry policy
+        jsonObjectRequest.setRetryPolicy(new com.android.volley.DefaultRetryPolicy(10000, 3, 1));
+
+
         requestQueue.add(jsonObjectRequest);
     }
     int dp_to_pixels(int dp){
